@@ -1,5 +1,6 @@
-#include <gtest/gtest.h>
+#include "s21_containers_tests.h"
 
-#include "../s21_containers.h"
-
-TEST(List_tests, initialization_test) { s21::List }
+int main(int argc, char *argv[]) {
+  ::testing::InitGoogleTest(&argc, argv);
+  return RUN_ALL_TESTS();
+}
