@@ -1,6 +1,7 @@
-GCC=g++ --std=c++17
-CFLAGS= -Wall -Wextra -Werror
-TEST_FLAGS = -lgtest -lgtest_main -pthread -g3
+GCC=g++
+CFLAGS= -Wall -Wextra -Werror --std=c++17
+TEST_FLAGS = -lgtest -lgtest_main -pthread
+DEBUG_FLAGS = -g3
 
 TEST_NAME = all
 BUILD = build
@@ -32,11 +33,13 @@ test_build: clean $(OBJ)
 	@echo; echo "Running tests... "$(TEST_NAME); echo;
 	@$(GCC) $(CFLAGS) $(SRCS_TEST) -o $(TEST_TARGET) $(TEST_FLAGS)
 
-$()
+debug: clean
+	@$(MAKE) test CFLAGS="$(DEBUG_FLAGS)"
+	gdb $(TEST_TARGET)
 
 $(BUILD)/%.o: %.cpp
 	@mkdir -p $(@D)
-	@$(GCC) $(CFLAGS) -c $< -o $@
+	@$(GCC) $(CFLAGS) -c $< -o $@ $(HEADER_FILES)
 
 $(LIB): $(FILE_OBJ)
 	@$(AR) rcs $@ $^
@@ -64,6 +67,7 @@ val: clean test_build
 clang-format:
 	@clang-format -n $(SRCS) $(SRCS_TEST)
 	@clang-format -i $(SRCS) $(SRCS_TEST)
+	@clang-format -i $(HEADER_FILES)
 	@clang-format -n $(SRCS) $(SRCS_TEST)
 
 .PHONY: clean

@@ -1,11 +1,16 @@
 #ifndef S21_CONTAINERS_TESTS_H
 #define S21_CONTAINERS_TESTS_H
 
-#include "../s21_pair.h"
+#include "../s21_containers.h"
 
 #include <gtest/gtest.h>
 #include <cstdlib>
 #include <cstring>
+
+using std::cin;
+using std::cout;
+using std::endl;
+using namespace s21;
 
 template <class T2>
 class Pifpaf {
