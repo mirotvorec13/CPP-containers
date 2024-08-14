@@ -1,4 +1,7 @@
 #include "s21_containers_tests.h"
+#include "../s21_pair.h"
+
+using namespace s21;
 
 TEST(s21_pair, s21_pair_all) {
   Pair<int, int> test(1, 2);

@@ -5,20 +5,16 @@
 #include <exception>
 #include <initializer_list>
 
+#include "s21_sequence_container.h"
 /*
 HEADER FILE
 */
 
+
 // Test vector class with some basic example operations and concepts
 namespace s21 {
 template <class T>
-class Vector {
-  // private attributes
- private:
-  size_t m_size;
-  size_t m_capacity;
-  T *arr;
-  // public attribures
+class Vector : public SequenceContainer<T> {
  public:
   // member types
   using value_type = T;
@@ -27,47 +23,42 @@ class Vector {
   using iterator = T *;
   using const_iterator = const T *;
   using size_type = size_t;
-  // private method
- private:
-  void reserve_more_capacity(size_type);
-  // public methods
- public:
-  // default constructor (simplified syntax for assigning values to attributes)
-  Vector() : m_size(0U), m_capacity(0U), arr(nullptr) {}
+  
+  // default constructor
+  Vector() : SequenceContainer<value_type>() { }
   // parametrized constructor for fixed size vector (explicit was used in order
   // to avoid automatic type conversion)
-  explicit Vector(size_type n)
-      : m_size(n), m_capacity(n), arr(n ? new T[n] : nullptr) {}
-  // initializer list constructor (allows creating lists with initializer lists,
-  // see main.cpp)
+  Vector(size_type, const_reference = value_type());
+  // many parameters
   Vector(std::initializer_list<value_type> const &items);
-  // copy constructor with simplified syntax
-  explicit Vector(const Vector &v) {
-    m_size = v.m_size;
-    m_capacity = v.m_capacity;
-    arr = v.arr;
-  }
-  // move constructor with simplified syntax
-  Vector(Vector &&v) : m_size(v.m_size), m_capacity(v.m_capacity), arr(v.arr) {
-    v.arr = nullptr;
-    v.m_size = 0;
-  }
+  // template <class... Args>
+  // Vector(Args... args) : SequenceContainer<value_type>(args...) { };
+  // copy constructor
+  Vector(const Vector<value_type> &v);
+  // move constructor
+  Vector(Vector<value_type> &&v);
 
+  size_type capacity() { return this->size(); }
+  void reserve(size_type n);
   // destructor
-  ~Vector(){ delete[] arr; };
+  ~Vector() { };
   // resize for rezerve
-  Vector<value_type> &resize(size_type);
   // some method examples
   // size getter
-  size_type size();
+  // size_type size();
   // element accessor
   value_type at(size_type i);
   // append new element
-  void push_back(value_type v);
+  // void push_back(value_type v);
   // index operator overload
-  value_type &operator[](size_type);
-  Vector<value_type> &operator=(const Vector<value_type> &);
+  void operator=(const Vector<value_type> &);
+  reference operator[](size_type);
+  const_reference operator[](size_type) const;
+  iterator operator*() { return this->begin(); };
+  // Vector<value_type> &operator=(const Vector<value_type> &);
 };
 }  // namespace s21
+
+#include "s21_vector.cpp"
 
 #endif

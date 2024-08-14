@@ -1,5 +1,5 @@
 GCC=g++
-CFLAGS= -Wall -Wextra -Werror --std=c++17
+CFLAGS= -lstdc++ -Wall -Wextra -Werror --std=c++17
 TEST_FLAGS = -lgtest -lgtest_main -pthread
 DEBUG_FLAGS = -g3
 
@@ -17,18 +17,20 @@ FILE_OBJ = $(SRCS:%.cpp=$(BUILD)/%.o)
 # TESTS_OBJ = $(SRCS_TEST:%.cpp=$(BUILD)/%.o)
 OBJ = $(FILE_OBJ) # $(TESTS_OBJ)
 
-# LIB = lib$(PROJECT_NAME).a
+LIB = lib$(PROJECT_NAME).h
 TEST_TARGET = $(BUILD)/s21_containers_tests
 
 test: test_build
 	@$(TEST_TARGET)
+
+# lib: $(LIB)
 
 all: $(OBJ) test
 
 $(PROJECT_NAME).a: clean $(LIB)
 
 # -L. $(LIB)
-test_build: clean $(OBJ)
+test_build: clean
 	@mkdir -p $(BUILD)
 	@echo; echo "Running tests... "$(TEST_NAME); echo;
 	@$(GCC) $(CFLAGS) $(SRCS_TEST) -o $(TEST_TARGET) $(TEST_FLAGS)
@@ -43,7 +45,7 @@ $(BUILD)/%.o: %.cpp
 
 $(LIB): $(FILE_OBJ)
 	@$(AR) rcs $@ $^
-	@ranlib $(MAIN_DIR)/$(LIB)
+	@ranlib $(MAIN_DIR)/$(BUILD)/$(LIB)
 
 GCOVR := $(shell command -v gcovr 2> /dev/null)
 ifeq ($(GCOVR),)
@@ -62,7 +64,7 @@ gcovr:
 	@rm -r $(BUILD)/*_t*.gc?? || true
 
 val: clean test_build
-	@valgrind -s --tool=memcheck --leak-check=yes $(TEST_FOLDER)/bin
+	@valgrind -s --tool=memcheck --leak-check=yes $(TEST_TARGET)
 
 clang-format:
 	@clang-format -n $(SRCS) $(SRCS_TEST)
@@ -81,3 +83,4 @@ clean:
 	@$(RM) -f  *.html
 	@$(RM) -rf $(BUILD)
 	@$(RM) -f *.dvi *.log *.pdf *.tar.gz
+	clear
