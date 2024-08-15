@@ -83,6 +83,6 @@ class Pair {
     }
   }
 };
-}
+}  // namespace s21
 
 #endif  // S21_PAIR_H
