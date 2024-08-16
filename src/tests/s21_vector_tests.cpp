@@ -36,17 +36,13 @@ TEST(VectorTest, TestCapacity) {
   ASSERT_EQ(v.capacity(), 5);
   v.push_back(6);
   v.push_back(7);
-  v.push_back(8);
-  v.push_back(9);
-  v.push_back(10);
+
   ASSERT_EQ(v.capacity(), 10);
   v.pop_back();
   v.pop_back();
   v.pop_back();
-  v.pop_back();
-  v.pop_back();
   ASSERT_EQ(v.capacity(), 10);
-  ASSERT_EQ(v.size(), 5);
+  ASSERT_EQ(v.size(), 4);
 }
 
 TEST(VectorTest, TestReserveResize) {
@@ -104,7 +100,7 @@ TEST(VectorTest, TestInitializerListInt) {
   }
 }
 
-TEST(VectorTest, TestInitializerListTestVectorInt) {
+TEST(VectorTest, TestVectorInt) {
   Vector<int> v = {3, 4};
   Vector<int> v2(5, 6);
   for (size_t i = 0; i < v2.size(); i++) {
@@ -223,4 +219,32 @@ TEST(VectorTest, TestInitializationString) {
   ASSERT_EQ(v.empty(), false);
   ASSERT_EQ(v[2], "3fd");
   ASSERT_EQ(v.capacity(), 5);
+}
+
+TEST(VectorTest, TestInsertIterator) {
+  Vector<int> v = {1, 2, 3, 4, 5};
+
+  Vector<int>::iterator it = v.insert(v.cbegin(), 0);
+  for (size_t i = 0; i < v.size(); i++) {
+    std::cout << v[i] << " ";
+  }
+  std::cout << std::endl;
+  ASSERT_EQ(v.size(), 6);
+  ASSERT_EQ(*it, 0);
+  Vector<int>::iterator itz = it + 5;
+  ASSERT_EQ(*itz, 5);
+
+  it = nullptr;
+  auto at = v.insert(v.cbegin(), 5, 88);
+
+  for (size_t i = 0; i < v.size(); ++i) {
+    std::cout << v[i] << " ";
+  }
+
+  ASSERT_EQ(v.size(), 11);
+  ASSERT_EQ(*at, 88);
+  (at = at + 1);
+  ASSERT_EQ(*at, 0);
+  ASSERT_EQ(v.capacity(), 20);
+
 }

@@ -59,10 +59,11 @@ class SequenceContainer {
   void resize(size_type, const_reference);
   void resize(size_type);
   bool empty() { return _M_len == 0; };
-  // void insert(const_iterator, reference); // single element
-  // void insert(const_iterator, size_type, reference); // range
-  // template <class IT>
-  // void insert<IT>(const_iterator, IT, IT); // range with iterators
+  iterator insert(const_iterator, const_reference); // single element
+  iterator insert(const_iterator, size_type, const_reference); // range
+//   template <class IT>
+//   void insert<IT>(const_iterator, IT, IT); // range with iterators
+//   void insert(contst_iterator, std::initializer_list<value_type> items); // initializerlist
   // void erase(iterator); // single element
   // void erase(iterator, iterator); // range
   void push_back(const_reference);

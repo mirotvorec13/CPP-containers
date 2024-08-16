@@ -37,7 +37,6 @@ test_build: clean
 
 debug: clean
 	@$(MAKE) test CFLAGS="$(DEBUG_FLAGS)"
-	gdb $(TEST_TARGET)
 
 $(BUILD)/%.o: %.cpp
 	@mkdir -p $(@D)
@@ -63,7 +62,7 @@ gcovr:
 	@echo "Отчет сгенерирован в gcov_report.html"
 	@rm -r $(BUILD)/*_t*.gc?? || true
 
-val: clean test_build
+val: clean debug
 	@valgrind -s --tool=memcheck --leak-check=yes $(TEST_TARGET)
 
 clang-format:

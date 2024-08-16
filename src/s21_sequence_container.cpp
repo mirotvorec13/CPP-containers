@@ -10,8 +10,8 @@ void s21::SequenceContainer<value_type>::reserve_more_capacity(size_type n) {
     for (size_type i = 0; i < this->_M_len; ++i) {
       buff[i] = this->_M_array[i];
     }
-    delete[] this->_M_array;
-    _M_array = buff;
+  delete[] _M_array;
+  _M_array = buff;
   } else {
     _M_array = buff;
   }
@@ -161,13 +161,48 @@ value_type s21::SequenceContainer<value_type>::pop_back() {
 }
 
 // insert new element at position
-// template <class value_type>
-// void s21::SequenceContainer<value_type>::insert(const_iterator it, size_type
-// n, const value_type &ref) {
-//   for (size_t i = 0; i < n; ++i) {
-//     insert(it, ref);
-//   }
-// }
+template <typename value_type>
+value_type *s21::SequenceContainer<value_type>::insert(const_iterator pos, const_reference val) {
+  size_type t = 0;
+  size_type t_pos = (this->cend() - pos);
+  iterator it = new value_type[_M_len + 1];
+  for (iterator i = it, arr = _M_array; i < it + _M_len + 1; ++i, ++arr) {
+    if (t == _M_len - t_pos) {
+      *i = val;
+      ++i;
+      *i = *arr;
+      ++t;
+    }
+    *i = *arr;
+    if (t < _M_len - t_pos) {
+      ++t;
+    }
+  }
+  if (_M_capacity < _M_len + 1) {
+    this->reserve_more_capacity(_M_len * 2);
+  }
+  _M_len++;
+  for (iterator i = it, iter = _M_array; i < it + _M_len; ++i, ++iter) {
+    *iter = *i;
+  }
+  delete[] it;
+  iterator arr = _M_array;
+
+  return arr + _M_len - t_pos - 1;
+}
+
+/// TODO: /исправить
+
+// insert new element at position
+template <class value_type>
+value_type *s21::SequenceContainer<value_type>::insert(const_iterator pos, size_type
+n, const_reference val) {
+  iterator it;
+  for (size_type i = 0; i < n; ++i) {
+    it = insert(pos, val); // исправить итератор который возвращает 1-ый элемент
+  }
+  return it + n - 1;
+}
 
 // template <class value_type>
 // template <class IT>
@@ -178,8 +213,3 @@ value_type s21::SequenceContainer<value_type>::pop_back() {
 //       ++first;
 //   }
 // }
-// template <class _Tp>
-// constexpr const _Tp* begin(SequenceContainer<_Tp> __ils) noexcept {
-//   return __ils.begin();
-// }
-// namespace s21
