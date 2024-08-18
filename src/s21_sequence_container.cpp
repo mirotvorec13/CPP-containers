@@ -191,25 +191,49 @@ value_type *s21::SequenceContainer<value_type>::insert(const_iterator pos, const
   return arr + _M_len - t_pos - 1;
 }
 
-/// TODO: /исправить
-
 // insert new element at position
 template <class value_type>
 value_type *s21::SequenceContainer<value_type>::insert(const_iterator pos, size_type
 n, const_reference val) {
   iterator it;
   for (size_type i = 0; i < n; ++i) {
-    it = insert(pos, val); // исправить итератор который возвращает 1-ый элемент
+    it = insert(pos, val);
   }
-  return it + n - 1;
+  return it;
 }
 
-// template <class value_type>
-// template <class IT>
-// void s21::SequenceContainer<value_type>::insert(const_iterator pos, IT first,
-// IT last) {
-//   while (first != last) {
-//       this->insert(pos, *first);
-//       ++first;
-//   }
-// }
+// insert range of elements
+template <class value_type>
+template <class IT>
+value_type *s21::SequenceContainer<value_type>::insert(const_iterator pos, IT *first, IT *last) {
+  iterator it;
+  while (first != last) {
+    it = insert(pos, *--last);
+  }
+  return it;
+}
+
+// erase element
+template <class value_type>
+value_type *s21::SequenceContainer<value_type>::erase(iterator pos) {
+  // size_type t_pos = (this->end() - pos) - 1;
+  iterator start = this->begin();
+  while (start != pos) {
+    start++;
+  }
+
+  for (auto it = pos; it < this->end();) {
+    *start++ = *++it;
+  }
+  this->_M_len--;
+  return pos;
+}
+
+// erase range of elements
+template <class value_type>
+value_type *s21::SequenceContainer<value_type>::erase(iterator first, iterator last) {
+  while (first != last) {
+    erase(--last);
+  }
+  return last;
+}
