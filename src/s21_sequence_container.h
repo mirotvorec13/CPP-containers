@@ -3,6 +3,7 @@
 
 #include <exception>
 #include <initializer_list>
+// #include <iostream>
 // #include "s21_vector.h"
 
 namespace s21 {
@@ -45,14 +46,15 @@ class SequenceContainer {
       const SequenceContainer<value_type>& other);
 
   // iterators
-  iterator begin() noexcept { return _M_array; }
-  iterator end() noexcept { return _M_array + _M_len; }
-  iterator rbegin() noexcept { return _M_array + _M_len - 1; }
-  iterator rend() noexcept { return _M_array - 1; }
-  const_iterator cbegin() const noexcept { return _M_array; }
-  const_iterator cend() const noexcept { return _M_array + _M_len; }
-  const_iterator crbegin() const noexcept { return _M_array + _M_len - 1; }
-  const_iterator crend() const noexcept { return _M_array - 1; }
+  
+  virtual iterator begin() noexcept { return _M_array; }
+  virtual iterator end() noexcept { return _M_array + _M_len; }
+  virtual iterator rbegin() noexcept { return _M_array + _M_len - 1; }
+  virtual iterator rend() noexcept { return _M_array - 1; }
+  virtual const_iterator cbegin() const noexcept { return _M_array; }
+  virtual const_iterator cend() const noexcept { return _M_array + _M_len; }
+  virtual const_iterator crbegin() const noexcept { return _M_array + _M_len - 1; }
+  virtual const_iterator crend() const noexcept { return _M_array - 1; }
 
   // size
   constexpr size_type size() const noexcept { return _M_len; }
