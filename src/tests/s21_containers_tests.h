@@ -7,6 +7,7 @@
 #include <cstring>
 
 #include "../s21_containers.h"
+// #include "../s21_vector.h"
 
 #include <iostream>
 

@@ -6,34 +6,27 @@
 using namespace s21;
 
 TEST(DequeTest, TestIterators) {
-  Deque<int> new_list(3, 4);
-  // std::cout << *new_list.arr[0] << std::endl;
-  // for (auto it = new_list.begin(); it < new_list.end() ++it) {
-    std::cout << new_list.begin() << " <<";
-  // }
-  std::cout << std::endl;
-  // std::cout <<  << std::endl;
-  
-  // std::cout << *new_list.arr[1] << std::endl;
-  // std::cout << &new_list.arr[1] << std::endl;
-  
-  // std::cout << *new_list.arr[2] << std::endl;
-  // std::cout << &new_list.arr[2] << std::endl;
-  
-  // std::cout << new_list.begin().get_data() << "*&(*&)(*&^(*&^" << std::endl;
-  // std::cout << std::endl;
+  Deque<int> new_deque(3, 4);
 
-  // for (auto it = new_list.begin(); it < new_list.end(); ++it) {
-  //     int z = *it;
-  //     std::cout << *it << "-----" << z << "***" <<  "ad" <<std::endl;
-  // }
-  
-  new_list.push_back(888);
-  Deque<int>::iterator zt = new_list.begin();
+  std::cout << *new_deque.begin() << " <<";
+  std::cout << std::endl;
+  new_deque.push_back(888);
+  auto zt = new_deque.begin();
   *zt = 666;
-  int x = **zt;
+  int x = *zt;
   std::cout << *zt << " --- " << x << " --- " <<zt << "***" <<  "ad" <<std::endl;
   std::cout<<"Hello World"<<std::endl;
+  std::cout <<  " kjlkj" << std::endl;
+  
+  std::cout << *new_deque.begin() << "*&(*&)(*&^(*&^" << std::endl;
+  std::cout << std::endl;
+
+  for (auto it = new_deque.begin(); it < new_deque.end(); ++it) {
+      int z = *it;
+      std::cout << *it << "-----" << z << "***" <<  "ad" <<std::endl;
+  }
+
+  
 }
 
   // Deque<int> v = {1, 2, 3, 4, 5};

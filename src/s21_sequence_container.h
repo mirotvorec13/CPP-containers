@@ -6,29 +6,33 @@
 // #include <iostream>
 // #include "s21_vector.h"
 
+/**  @file SequenceContainer
+ *	 здесь будет инициализирован адаптер
+ * 	 для последовательных контейнеров
+ * 	 @param __E тип данных
+ * 	 @param _Clptr класс который необходимо реализовать
+ */
+
 namespace s21 {
-template <class _E>
-class SequenceContainer {
+template <typename __E, class _Clptr>
+class SequenceContainer : public _Clptr {
  public:
-  typedef _E value_type;
-  typedef const _E& reference;
-  typedef const _E& const_reference;
+  typedef __E value_type;
+  typedef const __E& reference;
+  typedef const __E& const_reference;
   typedef size_t size_type;
-  typedef _E* iterator;
-  typedef const _E* const_iterator;
-  typedef const _E* reverse_iterator;
+  typedef __E* iterator;
+  typedef const __E* const_iterator;
+  typedef const __E* reverse_iterator;
 
  private:
   size_type _M_len;
   iterator _M_array;
-  void reserve_more_capacity(size_type);
-
  public:
-  size_type _M_capacity;
 
   // default constructor
   constexpr SequenceContainer() noexcept
-      : _M_len(0U), _M_array(0U), _M_capacity(0U) {}
+      : _M_len(0U), _M_array(0U) {}
   // copy constructor
   SequenceContainer(const SequenceContainer<value_type>&);
   // move constructor
@@ -40,26 +44,28 @@ class SequenceContainer {
   // SequenceContainer(Args... args);
   SequenceContainer(std::initializer_list<value_type> const& items);
   // destructor
-  ~SequenceContainer() { delete[] _M_array; };
+  ~SequenceContainer() {
+    _M_len = 0U;
+  };
 
   SequenceContainer<value_type>& operator=(
       const SequenceContainer<value_type>& other);
 
   // iterators
   
-  virtual iterator begin() noexcept { return _M_array; }
-  virtual iterator end() noexcept { return _M_array + _M_len; }
-  virtual iterator rbegin() noexcept { return _M_array + _M_len - 1; }
-  virtual iterator rend() noexcept { return _M_array - 1; }
-  virtual const_iterator cbegin() const noexcept { return _M_array; }
-  virtual const_iterator cend() const noexcept { return _M_array + _M_len; }
-  virtual const_iterator crbegin() const noexcept { return _M_array + _M_len - 1; }
-  virtual const_iterator crend() const noexcept { return _M_array - 1; }
+  iterator begin() noexcept { return _M_array; }
+  iterator end() noexcept { return _M_array + _M_len; }
+  iterator rbegin() noexcept { return _M_array + _M_len - 1; }
+  iterator rend() noexcept { return _M_array - 1; }
+  ionst_iterator cbegin() const noexcept { return _M_array; }
+  ionst_iterator cend() const noexcept { return _M_array + _M_len; }
+  ionst_iterator crbegin() const noexcept { return _M_array + _M_len - 1; }
+  ionst_iterator crend() const noexcept { return _M_array - 1; }
 
   // size
   constexpr size_type size() const noexcept { return _M_len; }
-  void resize(size_type, const_reference);
   void resize(size_type);
+  void resize(size_type, const_reference);
   bool empty() { return _M_len == 0; };
   
   // insert

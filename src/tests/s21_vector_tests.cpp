@@ -2,9 +2,32 @@
 #include <vector>
 
 #include "s21_containers_tests.h"
-// #include "../s21_vector.h"
+#include "../s21_vector.h"
+
 
 using namespace s21;
+using namespace std;
+
+TEST(VectorTest, TestInitialization) {
+  Vector<int> v(5, 3);
+  for (auto it = v.begin(); it < v.end(); ++it) {
+    ASSERT_EQ(*it, 3);
+  }
+
+  for (size_t it = 0; it < v.size(); ++it) {
+    ASSERT_EQ(v.at(it), 3);
+  }
+
+  v.resize(8);
+  ASSERT_EQ(v.size(), 5);
+  ASSERT_EQ(v.capacity(), 8);
+
+  v.push_back(8);
+  ASSERT_EQ(v.back(), 8);
+  v[3] = 8888;
+  ASSERT_EQ(v[3], 8888);
+}
+
 
 TEST(VectorTest, TestIterators) {
   Vector<int> v = {1, 2, 3, 4, 5};
@@ -37,11 +60,11 @@ TEST(VectorTest, TestCapacity) {
   v.push_back(6);
   v.push_back(7);
 
-  ASSERT_EQ(v.capacity(), 10);
+  ASSERT_EQ(v.capacity(), 7);
   v.pop_back();
   v.pop_back();
   v.pop_back();
-  ASSERT_EQ(v.capacity(), 10);
+  ASSERT_EQ(v.capacity(), 7);
   ASSERT_EQ(v.size(), 4);
 }
 
@@ -49,6 +72,9 @@ TEST(VectorTest, TestReserveResize) {
   Vector<int> v = {1, 2, 3, 4, 5};
   v.reserve(10);
   ASSERT_EQ(v.capacity(), 10);
+  ASSERT_EQ(v.size(), 5);
+  v.reserve(5);
+  ASSERT_EQ(v.capacity(), 5);
   ASSERT_EQ(v.size(), 5);
   v.resize(10, 6);
   ASSERT_EQ(v.size(), 10);
@@ -118,6 +144,7 @@ TEST(VectorTest, TestVectorInt) {
   ASSERT_EQ(v_v[1][0], 4);
   ASSERT_EQ(v_v[1][1], 4);
   ASSERT_EQ(v_v[1][2], 4);
+  ASSERT_EQ(v_v[1][3], 4);
   ASSERT_EQ(v_v[2][0], 5);
   ASSERT_EQ(v_v[2][1], 6);
   Vector<Vector<int>*> v_v_p = {&v_v[0], &v_v[1], &v_v[2]};
@@ -194,7 +221,7 @@ TEST(VectorTest, TestPushBackInt) {
   v.push_back(6);
   ASSERT_EQ(v.size(), 6);
   ASSERT_EQ(v[5], 6);
-  ASSERT_EQ(v.capacity(), 10);
+  ASSERT_EQ(v.capacity(), 6);
 }
 
 TEST(VectorTest, TestPopBackInt) {
@@ -227,6 +254,7 @@ TEST(VectorTest, TestInsertIterator) {
   std::vector<int> st_v = {1, 2, 3, 4, 5};
   Vector<int>::iterator it = v.insert(v.cbegin(), 0);
   std::vector<int>::iterator st_it = st_v.insert(st_v.cbegin(), 0);
+
   ASSERT_EQ(v.size(), 6);
   ASSERT_EQ(*it, 0);
   ASSERT_EQ(st_v.size(), 6);
@@ -248,12 +276,12 @@ TEST(VectorTest, TestInsertIterator) {
   (st_at = st_at + 1);
   ASSERT_EQ(*st_at, 88);
   
-  v.insert(at, 77);
-  ASSERT_EQ(v.capacity(), 20); // мое выделение памяти
+  auto new_at_it = v.insert(at, 77);
+  ASSERT_EQ(v.capacity(), 12); // мое выделение памяти
   st_v.insert(st_at, 77);
   ASSERT_EQ(st_v.capacity(), 12); // увеличение памяти разниться
 
-  Vector<int>::iterator iter = v.insert(at, 98798);
+  Vector<int>::iterator iter = v.insert(new_at_it, 98798);
   Vector<int> res = {88, 98798, 77, 88, 88, 88, 88, 0, 1, 2, 3, 4, 5};
   for (; iter < v.end(); ++iter) { }
   iter--;
@@ -313,8 +341,8 @@ TEST(VectorTest, TestEraseIterator) {
   new_vec.erase(it, it_res);
   Vector<int> res = {88, 98798, 77, 88, 88, 88, 88, 0, 1, 2, 3, 4, 5};
 
-  for (auto it = new_vec.begin(), res_it = res.begin(); it < new_vec.end(); ++it, ++res_it) {
-    ASSERT_EQ(*res_it, *it);
+  for (auto it = new_vec.begin(), res_it = res.begin(); it < new_vec.end();) {
+    ASSERT_EQ(*res_it++, *it++);
   }
 
 }
