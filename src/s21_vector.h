@@ -3,15 +3,10 @@
 
 #include <exception>
 #include <initializer_list>
-// #include <iostream>
 
-#include "base_sequence_cont.h"
+#include "base_vector_iterator.h"
 
-/*
-HEADER FILE
-*/
-
-// Test vector class with some basic example operations and concepts
+// class Vector
 namespace s21 {
 template <class T>
 class Vector : public Base<T> {
@@ -78,6 +73,6 @@ class Vector : public Base<T> {
 
 }  // namespace s21
 
-#include "s21_vector.cpp"
+#include "s21_vector.tpp"
 
 #endif

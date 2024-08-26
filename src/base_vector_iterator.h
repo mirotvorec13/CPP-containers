@@ -1,7 +1,5 @@
-#ifndef BASE_SEQUENCE_CONT
-#define BASE_SEQUENCE_CONT
-
-#include <iostream>
+#ifndef BASE_VECTOR_ITERATOR
+#define BASE_VECTOR_ITERATOR
 
 namespace s21 {
 template <typename __E>

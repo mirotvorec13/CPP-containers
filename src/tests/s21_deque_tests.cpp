@@ -4,30 +4,38 @@
 // #include "../s21_vector.h"
 
 using namespace s21;
+using namespace std;
 
-TEST(DequeTest, TestIterators) {
-  Deque<int> new_deque(3, 4);
+TEST(NodeTest, TestInitialization) {
+  Node<int> node(5);
+  cout << node.data_ << endl;
+  cout << *node.begin() << endl;
 
-  std::cout << *new_deque.begin() << " <<";
-  std::cout << std::endl;
-  new_deque.push_back(888);
-  auto zt = new_deque.begin();
-  *zt = 666;
-  int x = *zt;
-  std::cout << *zt << " --- " << x << " --- " <<zt << "***" <<  "ad" <<std::endl;
-  std::cout<<"Hello World"<<std::endl;
-  std::cout <<  " kjlkj" << std::endl;
-  
-  std::cout << *new_deque.begin() << "*&(*&)(*&^(*&^" << std::endl;
-  std::cout << std::endl;
-
-  for (auto it = new_deque.begin(); it < new_deque.end(); ++it) {
-      int z = *it;
-      std::cout << *it << "-----" << z << "***" <<  "ad" <<std::endl;
-  }
-
-  
 }
+
+// TEST(DequeTest, TestIterators) {
+//   Deque<int> new_deque(3, 4);
+
+//   std::cout << *new_deque.begin() << " <<";
+//   std::cout << std::endl;
+//   new_deque.push_back(888);
+//   auto zt = new_deque.begin();
+//   *zt = 666;
+//   int x = *zt;
+//   std::cout << *zt << " --- " << x << " --- " <<zt << "***" <<  "ad" <<std::endl;
+//   std::cout<<"Hello World"<<std::endl;
+//   std::cout <<  " kjlkj" << std::endl;
+  
+//   std::cout << *new_deque.begin() << "*&(*&)(*&^(*&^" << std::endl;
+//   std::cout << std::endl;
+
+//   for (auto it = new_deque.begin(); it < new_deque.end(); ++it) {
+//       int z = *it;
+//       std::cout << *it << "-----" << z << "***" <<  "ad" <<std::endl;
+//   }
+
+  
+// }
 
   // Deque<int> v = {1, 2, 3, 4, 5};
   // for (auto it = v.begin(); it < v.end(); ++it) {

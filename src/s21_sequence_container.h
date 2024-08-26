@@ -92,6 +92,6 @@ class SequenceContainer : public _Clptr {
 };
 }  // namespace s21
 
-#include "s21_sequence_container.cpp"
+#include "s21_sequence_container.tpp"
 
 #endif
